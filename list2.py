@@ -3,9 +3,14 @@
 """
 Kenzie assignment: List2
 """
+# I looked to see if there was a better solution not involving
+# importing itertools, however this seems to be the best option
+# from what I found online for allowing me to enumerate over
+# multiple lists, particularly the longest of two lists.
+import itertools
 # Your name, plus anyone who helped you with this assignment.
 # Give credit where credit is due.
-__author__ = "???"
+__author__ = "Iris Hoffmeyer, https://www.geeksforgeeks.org/python-iterate-multiple-lists-simultaneously/"
 
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
@@ -28,8 +33,13 @@ __author__ = "???"
 
 
 def remove_adjacent(nums):
-    # your code here
-    return
+    last = 0
+    numbers = []
+    for num in nums:
+        if last != num:
+            last = num
+            numbers.append(num)
+    return numbers
 
 
 # E. linear_merge
@@ -44,8 +54,20 @@ def remove_adjacent(nums):
 
 
 def linear_merge(list1, list2):
-    # your code here
-    return
+    linear_merge = []
+    # See line 6 for rational in using itertools here
+    for elm1, elm2 in itertools.zip_longest(list1, list2):
+        if elm1 is None:
+            linear_merge.append(elm2)
+        elif elm2 is None:
+            linear_merge.append(elm1)
+        else:
+            if elm1 < elm2:
+                linear_merge.extend((elm1, elm2))
+            else:
+                linear_merge.extend((elm2, elm1))
+
+    return linear_merge
 
 
 # Provided simple test() function used in main() to print
